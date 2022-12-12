@@ -24,21 +24,43 @@
     </h4>
   </div>
 
-  <%= form_with model: @comment, local: true do |form| %>
-    <%= form.hidden_field :post_id, value: @post.id %>
+  <div class="shadow-sm m-3 p-3 bg-light rounded">
+    <%= form_with model: @comment, local: true do |form| %>
+      <%= form.hidden_field :post_id, value: @post.id %>
 
-    <div class="mb-3">
-      <%= form.label :author, style: 'display: block', class: 'form-label' %>
-      <%= form.text_field :author, class: 'form-control' %>
-    </div>
+      <div class="mb-3">
+        <%= form.label :author, style: 'display: block', class: 'form-label' %>
+        <%= form.text_field :author, class: 'form-control' %>
+      </div>
 
-    <div class="mb-3">
-      <%= form.label :body, style: 'display: block', class: 'form-label' %>
-      <%= form.text_area :body, class: 'form-control', rows: 2 %>
-    </div>
+      <div class="mb-3">
+        <%= form.label :body, style: 'display: block', class: 'form-label' %>
+        <%= form.text_area :body, class: 'form-control', rows: 2 %>
+      </div>
 
-    <div class="mb-3">
-      <%= form.submit 'Enviar', class: 'btn btn-primary' %>
+      <div class="mb-3">
+        <%= form.submit 'Enviar', class: 'btn btn-primary' %>
+      </div>
+    <% end %>
+  </div>
+
+  <% @comments.each do |comment| %>
+    <div class="shadow-sm m-3 p-3 bg-light rounded">
+      <div class="row">
+        <div class="col">
+          <strong><%= comment.author %></strong>
+        </div>
+
+        <div class="col text-right">
+          <em data-bs-toggle="tooltip" data-bs-title="<%= l comment.created_at, format: :long %>">
+            <%= time_ago_in_words comment.created_at %> atrás
+          </em>
+        </div>
+      </div>
+
+      <hr>
+
+      <%= sanitize(comment.body.gsub("\n", "<br>")).html_safe %>
     </div>
   <% end %>
 </div>
